@@ -5294,7 +5294,7 @@
         "description": "Returns the current sizes of the panels."
       },
       "setSizes": {
-        "type": "(size: number[]) => void",
+        "type": "(size: PanelSize[]) => void",
         "description": "Sets the sizes of the panels."
       },
       "getItems": {
@@ -5353,11 +5353,11 @@
         "defaultValue": "\"horizontal\""
       },
       "size": {
-        "type": "number[] | undefined",
+        "type": "PanelSize[] | undefined",
         "description": "The controlled size data of the panels"
       },
       "defaultSize": {
-        "type": "number[] | undefined",
+        "type": "PanelSize[] | undefined",
         "description": "The initial size of the panels when rendered.\nUse when you don't need to control the size of the panels."
       },
       "panels": {
