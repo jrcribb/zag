@@ -34,7 +34,8 @@
       "data-part": "item-trigger",
       "data-controls": "",
       "data-orientation": "The orientation of the item",
-      "data-state": "\"open\" | \"closed\""
+      "data-state": "\"open\" | \"closed\"",
+      "data-focus": "Present when focused"
     }
   },
   "angle-slider": {
@@ -682,6 +683,7 @@
       "data-scope": "date-picker",
       "data-part": "day-table-cell-trigger",
       "data-disabled": "Present when disabled",
+      "data-selectable": "",
       "data-selected": "Present when selected",
       "data-value": "The value of the item",
       "data-view": "The view of the daytablecelltrigger",
@@ -707,6 +709,7 @@
       "data-scope": "date-picker",
       "data-part": "month-table-cell-trigger",
       "data-disabled": "Present when disabled",
+      "data-selectable": "",
       "data-selected": "Present when selected",
       "data-value": "The value of the item",
       "data-view": "The view of the monthtablecelltrigger",
@@ -729,6 +732,7 @@
       "data-scope": "date-picker",
       "data-part": "year-table-cell-trigger",
       "data-disabled": "Present when disabled",
+      "data-selectable": "",
       "data-selected": "Present when selected",
       "data-value": "The value of the item",
       "data-view": "The view of the yeartablecelltrigger",
