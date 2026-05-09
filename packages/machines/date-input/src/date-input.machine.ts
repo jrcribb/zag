@@ -18,6 +18,7 @@ import { defaultTranslations } from "./utils/placeholders"
 import { parse } from "./date-input.parse"
 import { getFormatterOptions, getSegmentLabel, processSegments, resolveAllSegments } from "./utils/segments"
 import {
+  advanceToNextSegment,
   getActiveDisplayValue,
   getActiveSegment,
   getGroupCount,
@@ -367,11 +368,7 @@ export const machine = createMachine<DateInputSchema>({
       },
 
       setNextActiveSegmentIndex(ctx) {
-        const { context } = ctx
-        const { segments, offset, localIndex } = resolveActiveSegment(ctx)
-        const nextLocalIndex = segments.findIndex((segment, i) => i > localIndex && segment.isEditable)
-        if (nextLocalIndex === -1) return
-        context.set("activeSegmentIndex", offset + nextLocalIndex)
+        advanceToNextSegment(ctx)
       },
 
       focusActiveSegment({ scope, context }) {

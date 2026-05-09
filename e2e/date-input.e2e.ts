@@ -840,6 +840,13 @@ test.describe("date-input [range]", () => {
     await I.seeSegmentGroupNotFocused(0)
     await I.seeSegmentGroupNotFocused(1)
   })
+
+  test("[keyboard] ArrowRight on last start segment moves focus to first end segment", async () => {
+    await I.getSegmentInGroup("year", 0).click()
+    await I.seeSegmentInGroupFocused("year", 0)
+    await I.pressKey("ArrowRight")
+    await I.seeSegmentInGroupFocused("month", 1)
+  })
 })
 
 test.describe("date-input [granularity cycle]", () => {
