@@ -9,3 +9,6 @@
 ```tsx
 api.scrollTo("installation", { behavior: "smooth" })
 ```
+
+- Rename `getScrollEl` context prop to `scrollEl` for consistency with other machines (e.g. `initialFocusEl`,
+  `finalFocusEl`).

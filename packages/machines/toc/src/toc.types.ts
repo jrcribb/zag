@@ -77,7 +77,7 @@ export interface TocProps extends DirectionProperty, CommonProperties {
    * Function that returns the scroll container element to observe within.
    * Defaults to the document/viewport.
    */
-  getScrollEl?: (() => HTMLElement | null) | undefined
+  scrollEl?: (() => HTMLElement | null) | undefined
   /**
    * Whether to auto-scroll the TOC container so the first active item
    * is visible when active headings change.

@@ -21,7 +21,7 @@ export function connect<T extends PropTypes>(service: Service<TocSchema>, normal
     if (!headingEl) return false
 
     const behavior = details?.behavior ?? prop("scrollBehavior")
-    const scrollEl = prop("getScrollEl")?.()
+    const scrollEl = prop("scrollEl")?.()
     if (!scrollEl) {
       headingEl.scrollIntoView({ behavior, block: "start" })
       return true
@@ -118,7 +118,7 @@ export function connect<T extends PropTypes>(service: Service<TocSchema>, normal
         "data-active": dataAttr(itemState.active),
         "aria-current": itemState.active ? "location" : undefined,
         onClick(event) {
-          const scrollEl = prop("getScrollEl")?.()
+          const scrollEl = prop("scrollEl")?.()
           if (!scrollEl) return
 
           if (event.defaultPrevented) return

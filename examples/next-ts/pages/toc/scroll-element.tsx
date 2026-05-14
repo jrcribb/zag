@@ -13,7 +13,7 @@ export default function Page() {
   const service = useMachine(toc.machine, {
     id: useId(),
     items: tocData,
-    getScrollEl: () => scrollRef.current,
+    scrollEl: () => scrollRef.current,
     ...controls.context,
   })
 
