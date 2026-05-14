@@ -471,6 +471,7 @@ export const componentRoutes: ComponentRoute[] = [
     examples: [
       { slug: "basic", title: "Basic" },
       { slug: "indicator", title: "Indicator" },
+      { slug: "scroll-element", title: "Scroll Element" },
     ],
   },
   {

@@ -31,6 +31,13 @@ export interface ActiveChangeDetails {
   activeItems: TocItem[]
 }
 
+export interface ScrollToDetails {
+  /**
+   * The behavior to use when scrolling to the heading.
+   */
+  behavior?: ScrollBehavior | undefined
+}
+
 /* -----------------------------------------------------------------------------
  * Machine context
  * -----------------------------------------------------------------------------*/
@@ -78,7 +85,9 @@ export interface TocProps extends DirectionProperty, CommonProperties {
    */
   autoScroll?: boolean | undefined
   /**
-   * The scroll behavior for auto-scrolling the TOC container.
+   * The default scroll behavior used when auto-scrolling the TOC container
+   * and when scrolling to a heading (via link click or `api.scrollTo`).
+   * Can be overridden per-call by passing `behavior` to `api.scrollTo`.
    * @default "smooth"
    */
   scrollBehavior?: ScrollBehavior | undefined
@@ -170,6 +179,10 @@ export interface TocApi<T extends PropTypes = PropTypes> {
    * Manually set the active heading ids
    */
   setActiveIds(value: string[]): void
+  /**
+   * Scrolls to the heading with the given id.
+   */
+  scrollTo(value: string, details?: ScrollToDetails): void
   /**
    * Returns the state of a TOC item
    */
