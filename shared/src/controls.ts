@@ -236,6 +236,12 @@ export const dateInputControls = defineControls({
     options: ["day", "hour", "minute", "second"] as const,
     defaultValue: "day",
   },
+  hourCycle: {
+    type: "select",
+    options: ["12", "24"] as const,
+    defaultValue: "",
+    transformValue: (value) => (value === "" ? undefined : (Number(value) as 12 | 24)),
+  },
   placeholderValue: {
     type: "date",
     defaultValue: "",

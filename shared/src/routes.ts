@@ -248,6 +248,11 @@ export const componentRoutes: ComponentRoute[] = [
     label: "Date Input",
     examples: [
       { slug: "basic", title: "Basic" },
+      { slug: "controlled", title: "Controlled" },
+      { slug: "time-only", title: "Time Only" },
+      { slug: "time-only-controlled", title: "Time Only (Controlled)" },
+      { slug: "timezone", title: "Timezone" },
+      { slug: "hour-cycle", title: "Hour Cycle" },
       { slug: "min-max", title: "Min Max" },
       { slug: "range", title: "Range" },
       { slug: "custom-calendar", title: "Custom Calendar" },

@@ -885,6 +885,148 @@ test.describe("date-input [granularity cycle]", () => {
     await I.pressKey("ArrowDown")
     await I.seeSegmentIsNotPlaceholder("hour")
   })
+
+  test("[granularity] typing 'P' on dayPeriod sets PM", async () => {
+    await I.clickControls()
+    await I.controls.select("granularity", "minute")
+
+    await I.focusSegment("dayPeriod")
+    await I.seeSegmentText("dayPeriod", "AM")
+    await I.pressKey("p")
+    await I.seeSegmentText("dayPeriod", "PM")
+  })
+
+  test("[granularity] typing 'A' on dayPeriod sets AM", async () => {
+    await I.clickControls()
+    await I.controls.select("granularity", "minute")
+
+    await I.focusSegment("dayPeriod")
+    await I.pressKey("p")
+    await I.seeSegmentText("dayPeriod", "PM")
+    await I.pressKey("a")
+    await I.seeSegmentText("dayPeriod", "AM")
+  })
+
+  test("[granularity] switching to minute granularity allows ArrowUp/ArrowDown to toggle dayPeriod", async () => {
+    await I.clickControls()
+    await I.controls.select("granularity", "minute")
+
+    await I.focusSegment("dayPeriod")
+    await I.seeSegmentText("dayPeriod", "AM")
+    await I.pressKey("ArrowUp")
+    await I.seeSegmentText("dayPeriod", "PM")
+    await I.pressKey("ArrowDown")
+    await I.seeSegmentText("dayPeriod", "AM")
+  })
+
+  test("[hourCycle=12] dayPeriod segment renders and toggles", async () => {
+    await I.clickControls()
+    await I.controls.select("granularity", "minute")
+    await I.controls.select("hourCycle", "12")
+
+    await I.focusSegment("dayPeriod")
+    await I.seeSegmentText("dayPeriod", "AM")
+    await I.pressKey("ArrowUp")
+    await I.seeSegmentText("dayPeriod", "PM")
+  })
+
+  test("[hourCycle=24] no dayPeriod segment renders; hour cycles 0-23", async () => {
+    await I.clickControls()
+    await I.controls.select("granularity", "minute")
+    await I.controls.select("hourCycle", "24")
+
+    await I.seeSegmentHasCount("dayPeriod", 0)
+
+    await I.focusSegment("hour")
+    await I.seeSegmentIsPlaceholder("hour")
+    await I.pressKey("ArrowUp")
+    await I.seeSegmentIsNotPlaceholder("hour")
+  })
+
+  test("[hourCycle] switching 12 → 24 → 12 preserves hour and re-shows dayPeriod", async () => {
+    await I.clickControls()
+    await I.controls.select("granularity", "minute")
+    await I.controls.select("hourCycle", "12")
+
+    // type 09:30 PM
+    await I.focusSegment("hour")
+    await I.type("09")
+    await I.type("30")
+    await I.focusSegment("dayPeriod")
+    await I.pressKey("ArrowUp")
+    await I.seeSegmentText("dayPeriod", "PM")
+    await I.seeSegmentText("hour", "9")
+
+    // switch to 24h: dayPeriod removed, hour becomes 21
+    await I.controls.select("hourCycle", "24")
+    await I.seeSegmentHasCount("dayPeriod", 0)
+    await I.seeSegmentText("hour", "21")
+
+    // switch back to 12h: dayPeriod re-appears as PM, hour becomes 9
+    await I.controls.select("hourCycle", "12")
+    await I.seeSegmentText("dayPeriod", "PM")
+    await I.seeSegmentText("hour", "9")
+  })
+})
+
+test.describe("date-input [hour-cycle]", () => {
+  test.beforeEach(async ({ page }) => {
+    I = new DateInputModel(page)
+    await I.goto("/date-input/hour-cycle")
+  })
+
+  test("[hour-cycle] hourCycle=24 forces 24-hour time regardless of locale", async () => {
+    await I.seeSegmentHasCount("dayPeriod", 0)
+    await I.focusSegment("hour")
+    await I.pressKey("ArrowUp")
+    // h23 hour cycle starts at 0, so first ArrowUp lands on a 0-23 value (placeholder).
+    await I.seeSegmentIsNotPlaceholder("hour")
+  })
+})
+
+test.describe("date-input [timezone]", () => {
+  test.beforeEach(async ({ page }) => {
+    I = new DateInputModel(page)
+    await I.goto("/date-input/timezone")
+  })
+
+  test("[timezone] timeZoneName segment renders with the zone abbreviation", async () => {
+    await I.seeSegmentHasCount("timeZoneName", 1)
+    await I.seeSegmentText("month", "2")
+    await I.seeSegmentText("day", "3")
+    await I.seeSegmentText("year", "2025")
+    await I.seeSegmentText("hour", "8")
+    await I.seeSegmentText("minute", "45")
+    await I.seeSegmentText("dayPeriod", "AM")
+    await I.seeSegmentText("timeZoneName", "PST")
+  })
+
+  test("[timezone] ArrowRight from dayPeriod focuses the read-only timeZoneName", async () => {
+    await I.focusSegment("dayPeriod")
+    await I.pressKey("ArrowRight")
+    await I.seeSegmentFocused("timeZoneName")
+  })
+
+  test("[timezone] ArrowLeft from timeZoneName focuses dayPeriod", async () => {
+    await I.focusSegment("timeZoneName")
+    await I.pressKey("ArrowLeft")
+    await I.seeSegmentFocused("dayPeriod")
+  })
+
+  test("[timezone] typing 'P' on dayPeriod advances focus to timeZoneName", async () => {
+    await I.focusSegment("dayPeriod")
+    await I.pressKey("p")
+    await I.seeSegmentText("dayPeriod", "PM")
+    await I.seeSegmentFocused("timeZoneName")
+  })
+
+  test("[timezone] hideTimeZone hides the timeZoneName segment", async () => {
+    await I.seeSegmentHasCount("timeZoneName", 1)
+    await I.page.getByTestId("hide-tz").check()
+    await I.seeSegmentHasCount("timeZoneName", 0)
+    await I.page.getByTestId("hide-tz").uncheck()
+    await I.seeSegmentHasCount("timeZoneName", 1)
+  })
 })
 
 test.describe("date-input [min/max]", () => {
