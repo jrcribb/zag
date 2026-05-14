@@ -286,7 +286,13 @@ export const machine = createMachine<DatePickerSchema>({
       actions: ["setFocusedDate"],
     },
     "VALUE.CLEAR": {
-      actions: ["clearDateValue", "clearFocusedDate", "focusFirstInputElement"],
+      actions: [
+        "clearDateValue",
+        "clearFocusedDate",
+        "setActiveIndexToStart",
+        "clearHoveredDate",
+        "focusFirstInputElement",
+      ],
     },
     "INPUT.CHANGE": [
       {
