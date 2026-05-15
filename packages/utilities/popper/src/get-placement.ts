@@ -82,23 +82,27 @@ function getOffsetMiddleware(arrowElement: HTMLElement | null, opts: Options) {
 
 function getFlipMiddleware(opts: Options) {
   if (!opts.flip) return
-  const boundary = resolveBoundaryOption(opts.boundary)
-  return flip({
-    ...(boundary ? { boundary } : undefined),
-    padding: opts.overflowPadding,
-    fallbackPlacements: (opts.flip === true ? undefined : opts.flip) as Placement[],
+  return flip(() => {
+    const boundary = resolveBoundaryOption(opts.boundary)
+    return {
+      ...(boundary ? { boundary } : undefined),
+      padding: opts.overflowPadding,
+      fallbackPlacements: (opts.flip === true ? undefined : opts.flip) as Placement[],
+    }
   })
 }
 
 function getShiftMiddleware(opts: Options) {
   if (!opts.slide && !opts.overlap) return
-  const boundary = resolveBoundaryOption(opts.boundary)
-  return shift({
-    ...(boundary ? { boundary } : undefined),
-    mainAxis: opts.slide,
-    crossAxis: opts.overlap,
-    padding: opts.overflowPadding,
-    limiter: limitShift(),
+  return shift(() => {
+    const boundary = resolveBoundaryOption(opts.boundary)
+    return {
+      ...(boundary ? { boundary } : undefined),
+      mainAxis: opts.slide,
+      crossAxis: opts.overlap,
+      padding: opts.overflowPadding,
+      limiter: limitShift(),
+    }
   })
 }
 
@@ -143,7 +147,10 @@ function getSizeMiddleware(opts: Options) {
 
 function hideWhenDetachedMiddleware(opts: Options) {
   if (!opts.hideWhenDetached) return
-  return hide({ strategy: "referenceHidden", boundary: resolveBoundaryOption(opts.boundary) ?? "clippingAncestors" })
+  return hide(() => ({
+    strategy: "referenceHidden",
+    boundary: resolveBoundaryOption(opts.boundary) ?? "clippingAncestors",
+  }))
 }
 
 function getAutoUpdateOptions(opts?: boolean | AutoUpdateOptions): AutoUpdateOptions {
